@@ -48,7 +48,10 @@ ProductOverviewScreen.navigationOptions = ({ navigation }) => {
         <Item
           title="CART"
           iconName={Platform.OS === "ios" ? "ios-cart" : "md-cart"}
-          onClick={() => navigation.navigate("Cart")}
+          onPress={() => {
+            console.log("CART clicked");
+            navigation.navigate("Cart");
+          }}
         />
       </HeaderButtons>
     ),

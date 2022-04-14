@@ -9,7 +9,6 @@ import CartScreen from "../screens/shop/CartScreen";
 
 const Products = createStackNavigator(
   {
-    Cart: CartScreen,
     ProductOverview: {
       screen: ProductOverviewScreen,
       navigationOptions: {
@@ -17,6 +16,7 @@ const Products = createStackNavigator(
       },
     },
     ProductDetail: ProductDetailScreen,
+    Cart: CartScreen,
   },
   {
     defaultNavigationOptions: {

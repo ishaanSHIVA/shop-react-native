@@ -1,27 +1,57 @@
 import React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, FlatList } from "react-native";
 import { useSelector } from "react-redux";
 
 import Color from "../../constants/Colors";
+import CartItem from "../../components/shop/CartItem";
 
 const CartScreen = () => {
-  const cartItems = useSelector((state) => state.cart.items);
+  const cartAmount = useSelector(({ cart }) => cart.sum);
 
-  const cartAmount = useSelector((state) => state.cart.sum);
-  console.log(cartItems);
+  const cartItems = useSelector((state) => {
+    const transformedCart = [];
+
+    for (const key in state.cart.items) {
+      transformedCart.push({
+        productId: key,
+        productTitle: state.cart.items[key].productTitle,
+        productPrice: state.cart.items[key].productPrice,
+        quantity: state.cart.items[key].quantity,
+        sum: state.cart.items[key].sum,
+      });
+    }
+    return transformedCart;
+  });
+
+  //   if (!cartItems) {
+  //     return (
+  //       <View>
+  //         <Text>No Items</Text>
+  //       </View>
+  //     );
+  //   }
+  console.log("cartItems ", cartItems);
+
+  //   console.log(cartItems.map((cartItem) => cartItem.productTitle));
 
   return (
     <View style={styles.cartScreen}>
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
-          Total: <Text style={styles.price}>$ {cartAmount}</Text>
+          Total: <Text style={styles.price}>$ {cartAmount.toFixed(2)}</Text>
         </Text>
-        <Button title="Order Now" />
+        <Button
+          color={Color.accent}
+          title="Order Now"
+          disabled={cartItems.length === 0}
+        />
       </View>
-      {/* <FlatList date={}  /> */}
       <View>
-        {/* {cartItems && cartItems.map((cartItem) => <Text>{cartItem}</Text>)} */}
-        <Text>Blue shirt</Text>
+        <FlatList
+          data={cartItems}
+          renderItem={({ item }) => <CartItem item={item} />}
+          keyExtractor={(card) => card.productId}
+        />
       </View>
     </View>
   );
@@ -31,7 +61,9 @@ const styles = StyleSheet.create({
   cartScreen: {
     margin: 20,
   },
-  price: {},
+  price: {
+    color: Color.primary,
+  },
   summary: {
     flexDirection: "row",
     alignItems: "center",
@@ -49,7 +81,6 @@ const styles = StyleSheet.create({
   summaryText: {
     fontFamily: "open-sans-bold",
     fontSize: 18,
-    color: Color.accent,
   },
 });
 
