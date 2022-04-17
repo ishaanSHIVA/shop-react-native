@@ -1,38 +1,32 @@
 import React from "react";
 import { StyleSheet, View, Text, Button, FlatList } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Color from "../../constants/Colors";
 import CartItem from "../../components/shop/CartItem";
+import * as CartActions from "../../store/actions/cart.actions";
+import * as OrderActions from "../../store/actions/orders.actions";
 
 const CartScreen = () => {
+  const dispatch = useDispatch();
   const cartAmount = useSelector(({ cart }) => cart.sum);
 
   const cartItems = useSelector((state) => {
     const transformedCart = [];
 
     for (const key in state.cart.items) {
-      transformedCart.push({
-        productId: key,
-        productTitle: state.cart.items[key].productTitle,
-        productPrice: state.cart.items[key].productPrice,
-        quantity: state.cart.items[key].quantity,
-        sum: state.cart.items[key].sum,
-      });
+      if (state.cart.items[key].quantity > 0) {
+        transformedCart.push({
+          productId: key,
+          productTitle: state.cart.items[key].productTitle,
+          productPrice: state.cart.items[key].productPrice,
+          quantity: state.cart.items[key].quantity,
+          sum: state.cart.items[key].sum,
+        });
+      }
     }
-    return transformedCart;
+    return transformedCart.sort((a, b) => (a.productId > b.productId ? 1 : -1));
   });
-
-  //   if (!cartItems) {
-  //     return (
-  //       <View>
-  //         <Text>No Items</Text>
-  //       </View>
-  //     );
-  //   }
-  console.log("cartItems ", cartItems);
-
-  //   console.log(cartItems.map((cartItem) => cartItem.productTitle));
 
   return (
     <View style={styles.cartScreen}>
@@ -44,17 +38,31 @@ const CartScreen = () => {
           color={Color.accent}
           title="Order Now"
           disabled={cartItems.length === 0}
+          onPress={() => dispatch(OrderActions.addOrder(cartItems, cartAmount))}
         />
       </View>
       <View>
         <FlatList
           data={cartItems}
-          renderItem={({ item }) => <CartItem item={item} />}
+          renderItem={({ item }) => (
+            <CartItem
+              item={item}
+              onRemove={() =>
+                dispatch(CartActions.removeFromCart(item.productId))
+              }
+            />
+          )}
           keyExtractor={(card) => card.productId}
         />
       </View>
     </View>
   );
+};
+
+CartScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerTitle: "Your Cart",
+  };
 };
 
 const styles = StyleSheet.create({

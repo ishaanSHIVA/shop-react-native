@@ -4,7 +4,6 @@ import {
   Image,
   View,
   Text,
-  Button,
   TouchableOpacity,
   Platform,
   TouchableNativeFeedback,
@@ -12,7 +11,7 @@ import {
 
 import Colors from "../../constants/Colors";
 
-const ProductItem = ({ item, onViewDetail, addCart }) => {
+const ProductItem = ({ item, onSelect, children }) => {
   let TouchableContent = TouchableOpacity;
 
   if (Platform.OS === "android" && Platform.Version >= "2.0") {
@@ -21,7 +20,7 @@ const ProductItem = ({ item, onViewDetail, addCart }) => {
   return (
     <View style={styles.product}>
       <View style={styles.touchable}>
-        <TouchableContent onPress={onViewDetail} useForeground>
+        <TouchableContent onPress={onSelect} useForeground>
           <View>
             <View style={styles.imageContainer}>
               <Image
@@ -33,18 +32,7 @@ const ProductItem = ({ item, onViewDetail, addCart }) => {
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.price}>$ {item.price.toFixed(2)}</Text>
             </View>
-            <View style={styles.actions}>
-              <Button
-                color={Colors.primary}
-                title="View Details"
-                onPress={onViewDetail}
-              />
-              <Button
-                color={Colors.primary}
-                title="To Cart"
-                onPress={addCart}
-              />
-            </View>
+            {children}
           </View>
         </TouchableContent>
       </View>
@@ -66,13 +54,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   title: { fontSize: 18, marginVertical: 4, fontFamily: "open-sans" },
-  actions: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: "20%",
-    paddingHorizontal: 20,
-  },
+
   price: {
     fontSize: 14,
     color: "#888",
