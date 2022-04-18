@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import { useState } from "react";
-import "react-native-reanimated";
 
 // redux
 import { createStore, combineReducers } from "redux";
