@@ -47,38 +47,14 @@ export default addToCart = (state = initialState, action) => {
         sum: state.sum + productPrice,
       };
     case DELETE_PRODUCT:
-      const id = action.id;
-      if (!state.items[id]) return state;
-      const updatedItems = { ...state };
-      delete updatedItems.items[id];
+      if (!state.items[action.id]) return state;
+      const updatedItems = { ...state.items };
+      const itemTotal = state.items[action.id].sum;
+      delete updatedItems[action.id];
       return {
         ...state,
         items: updatedItems,
-        sum: state.sum - state.items[id].sum,
-      };
-    case REMOVE_FROM_CART:
-      const selectedProduct = state.items[action.id];
-      const currentQuantity = state.items[action.id].quantity;
-
-      let updatedItem;
-      if (currentQuantity > 1) {
-        updatedItem = new CartItem(
-          selectedProduct.quantity - 1,
-          selectedProduct.productPrice,
-          selectedProduct.productTitle,
-          selectedProduct.sum - selectedProduct.productPrice
-        );
-      } else {
-        updatedItem = { ...state.items };
-        delete updatedItem[action.id];
-      }
-      return {
-        ...state,
-        items: {
-          ...state.items,
-          [action.id]: updatedItem,
-        },
-        sum: state.sum - selectedProduct.productPrice,
+        sum: state.sum - itemTotal,
       };
   }
 

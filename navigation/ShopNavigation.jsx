@@ -40,7 +40,7 @@ const ProductsNavigator = createStackNavigator(
     navigationOptions: {
       drawerIcon: (drawerConfig) => (
         <Ionicons
-          name={Platform.OS === "ios" ? "ios-list" : "md-list"}
+          name={Platform.OS === "ios" ? "ios-cart" : "md-cart"}
           size={23}
           color={drawerConfig.tintColor}
         />
@@ -58,7 +58,7 @@ const OrderNavigator = createStackNavigator(
     navigationOptions: {
       drawerIcon: (drawerConfig) => (
         <Ionicons
-          name={Platform.OS === "ios" ? "ios-create" : "md-create"}
+          name={Platform.OS === "ios" ? "ios-list" : "md-list"}
           size={23}
           color={drawerConfig.tintColor}
         />
@@ -85,10 +85,22 @@ const AdminNavigator = createStackNavigator(
   }
 );
 
-const ShopNavigator = createDrawerNavigator({
-  Products: ProductsNavigator,
-  Order: OrderNavigator,
-  Admin: AdminNavigator,
-});
+const ShopNavigator = createDrawerNavigator(
+  {
+    Products: ProductsNavigator,
+    Order: OrderNavigator,
+    Admin: AdminNavigator,
+  },
+  {
+    drawerPosition: "right",
+    contentOptions: {
+      activeTintColor: "#e91e63",
+      itemsContainerStyle: {
+        paddingVertical: 20,
+        fontSize: 25,
+      },
+    },
+  }
+);
 
 export default createAppContainer(ShopNavigator);

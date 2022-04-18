@@ -12,19 +12,12 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case DELETE_PRODUCT:
-      const id = action.id;
-      console.log(
-        state.userProducts.filter((product) => {
-          return product.id !== id;
-        })
-      );
       return {
-        ...state,
         userProducts: state.userProducts.filter(
-          (product) => product.ownerId !== id
+          (product) => product.id !== action.id
         ),
         availableProducts: state.availableProducts.filter(
-          (product) => product.ownerId !== id
+          (product) => product.id !== action.id
         ),
       };
   }
