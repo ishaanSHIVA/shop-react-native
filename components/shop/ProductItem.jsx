@@ -9,7 +9,7 @@ import {
   TouchableNativeFeedback,
 } from "react-native";
 
-import Colors from "../../constants/Colors";
+import Card from "../UI/Card";
 
 const ProductItem = ({ item, onSelect, children }) => {
   let TouchableContent = TouchableOpacity;
@@ -18,7 +18,7 @@ const ProductItem = ({ item, onSelect, children }) => {
     TouchableContent = TouchableNativeFeedback;
   }
   return (
-    <View style={styles.product}>
+    <Card style={styles.product}>
       <View style={styles.touchable}>
         <TouchableContent onPress={onSelect} useForeground>
           <View>
@@ -36,19 +36,12 @@ const ProductItem = ({ item, onSelect, children }) => {
           </View>
         </TouchableContent>
       </View>
-    </View>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
   product: {
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: "white",
     height: 300, //tweek
     margin: 20,
     overflow: "hidden",

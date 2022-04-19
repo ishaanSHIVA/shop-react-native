@@ -14,8 +14,6 @@ import HeaderButton from "../../components/UI/HeaderButton";
 const ProductOverviewScreen = ({ navigation }) => {
   const products = useSelector((state) => state.products.availableProducts);
 
-  const cartItems = useSelector((state) => state.cart.items);
-
   const dispatch = useDispatch();
 
   const addToCart = (item) => dispatch(cartAction.addToCart(item));
@@ -27,7 +25,6 @@ const ProductOverviewScreen = ({ navigation }) => {
     });
   };
 
-  // navigation.setParams({id: })
   return (
     <FlatList
       data={products}

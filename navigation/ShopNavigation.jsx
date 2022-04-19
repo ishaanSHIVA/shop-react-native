@@ -1,16 +1,21 @@
+// navigators
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import { Platform } from "react-native";
 import { createDrawerNavigator } from "react-navigation-drawer";
-import React from "react";
 
-import ProductOverviewScreen from "../screens/shop/ProductOverviewScreen";
+// tools
+import { Platform } from "react-native";
+import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
+
+// screens
+import ProductOverviewScreen from "../screens/shop/ProductOverviewScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import CartScreen from "../screens/shop/CartScreen";
 import OrderScreen from "../screens/shop/OrdersScreen";
 import UserProductsScreen from "../screens/user/UserProductsScreen";
+import EditProductScreen from "../screens/user/EditProductScreen";
 
 const defaultNavigationOptions = {
   headerStyle: {
@@ -70,6 +75,7 @@ const OrderNavigator = createStackNavigator(
 const AdminNavigator = createStackNavigator(
   {
     UserProducts: UserProductsScreen,
+    EditProduct: EditProductScreen,
   },
   {
     navigationOptions: {
@@ -94,7 +100,8 @@ const ShopNavigator = createDrawerNavigator(
   {
     drawerPosition: "right",
     contentOptions: {
-      activeTintColor: "#e91e63",
+      inactiveTintColor: Colors.primary,
+      activeTintColor: Colors.accent,
       itemsContainerStyle: {
         paddingVertical: 20,
         fontSize: 25,
